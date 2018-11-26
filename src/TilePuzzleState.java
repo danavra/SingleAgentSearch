@@ -3,22 +3,14 @@ import java.util.List;
 
 public class TilePuzzleState implements IProblemState
 {
-	TilePuzzle 		_problem;		// The original problem
-	int[][] 		_tilePuzzle;	// Current state
-	int 			_zeroRow;		// Current row of the blank
-	int				_zeroCol;		// Current column of the blank
-	TilePuzzleMove 	_lastMove;		// The last move made
+	TilePuzzle _problem; // The original problem
+	int[][] _tilePuzzle;// Current state
+	int _zeroRow; // Current row of the blank
+	int _zeroCol; // Current column of the blank
+	TilePuzzleMove _lastMove; // The last move made
 	
 	
-	public TilePuzzleState
-	(
-		TilePuzzle 		problem,
-		int[][]			tilePuzzle,
-		int				zeroRow,
-		int				zeroCol,
-		TilePuzzleMove 	lastMove
-	)
-	{
+	public TilePuzzleState(TilePuzzle problem, int[][] tilePuzzle, int zeroRow, int zeroCol, TilePuzzleMove lastMove){
 		_problem	= problem;
 		_tilePuzzle	= tilePuzzle;
 		_zeroRow	= zeroRow;
