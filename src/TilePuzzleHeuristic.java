@@ -15,7 +15,7 @@ public class TilePuzzleHeuristic implements IHeuristic {
         return 0;
     }
 
-    private int oldHeuristic(){
+    private int oldHeuristic(){//Manhattan Distance times the value of the tile
         int ans = 0, val;
         for (int i = 0; i < tileHeight; i++) {
             for (int j = 0; j < tileWidth; j++) {
@@ -26,42 +26,33 @@ public class TilePuzzleHeuristic implements IHeuristic {
         return ans;
     }
 
-    private int newHeuristic(){
+    private int newHeuristic(){//if 2 are in the same row or column but in different order, it counts the swap
         int ans = 0;
+        //check the whole tilePuzzle
         for (int i=0; i<tile.length; i++){
             for (int j=0; j<tile.length; j++){
-                if (isInRow(i, j) && !isInColumn(i, j)){
-                    ans += getLowerInRow(i, j);
-                }
-                else if (!isInRow(i, j) && isInColumn(i, j)){
-                    ans += getLowerInCol(i, j);
-                }
+                if ((i == ((tile[i][j]-1)/tileWidth)) && !(j == ((tile[i][j]-1)%tileHeight)))//if a tile is in its row but not in its column
+                    ans += 2* getNextLowerInRow(i, j);
+                else if(!(i == ((tile[i][j]-1)/tileWidth)) && (j == ((tile[i][j]-1)%tileHeight)))//if a tile is in its column but not in its row
+                    ans += 2* getNextLowerInCol(i, j);
             }
         }
         return ans;
     }
 
-    private int getLowerInCol(int i, int j) {
+    private int getNextLowerInCol(int i, int j) {
         for(int k=i; k<tileHeight; k++){
-            if(tile[i][j]>tile[k][j]&&isInColumn(k, j))
-                return tile[k][j]*2;
+            if(tile[i][j]>tile[k][j] && (j==((tile[k][j]-1)%tileHeight)))
+                return tile[k][j];
         }
         return 0;
     }
 
-    private int getLowerInRow(int i, int j) {
+    private int getNextLowerInRow(int i, int j) {
         for(int k = j; k<tileWidth; k++){
-            if(tile[i][j]>tile[i][k]&&isInRow(i, k))
-                return tile[i][k]*2;
+            if(tile[i][j]>tile[i][k] && (i==((tile[i][k]-1)/tileWidth)))
+                return tile[i][k];
         }
         return 0;
-    }
-
-    private boolean isInColumn(int i, int j) {
-        return j == ((tile[i][j]-1)%tileHeight);
-    }
-
-    private boolean isInRow(int i, int j) {
-        return i == ((tile[i][j]-1)/tileWidth);
     }
 }
