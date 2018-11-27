@@ -23,12 +23,7 @@ public class UniformCostSearch   extends ASearch
 	
 	@Override
 	public void initLists(){
-		openList = new PriorityQueue<>(new Comparator<ASearchNode>() {
-			@Override
-			public int compare(ASearchNode o1, ASearchNode o2) {
-				return (int)(o1.getG()-o2.getG());
-			}
-		});
+		openList = new PriorityQueue<>((ASearchNode o1, ASearchNode o2) -> (int)(o1.getG()-o2.getG()));
 		closeList = new ArrayList<>();
 	}
 

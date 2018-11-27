@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
@@ -21,9 +20,7 @@ public class PureHeuristicSearch extends ASearch {
 
     @Override
     public void initLists() {
-        openList = new PriorityQueue<>((ASearchNode o1, ASearchNode o2) -> {
-            return (int) (o1.getH() - o2.getH());
-        });
+        openList = new PriorityQueue<>((ASearchNode o1, ASearchNode o2) -> (int) (o1.getH() - o2.getH()));
         closeList = new ArrayList<>();
     }
 

@@ -1,7 +1,12 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.PriorityQueue;
 
 public class AStarSearch   extends ASearch
 {
 	// Define lists here ...
+	private PriorityQueue<ASearchNode> openList;
+	private ArrayList<ASearchNode> closeList;
 	
 	@Override
 	public String getSolverName() 
@@ -10,76 +15,60 @@ public class AStarSearch   extends ASearch
 	}
 	
 	@Override
-	public ASearchNode createSearchRoot
-	(
-		IProblemState problemState
-	) 
-	{	
+	public ASearchNode createSearchRoot(IProblemState problemState){
 		ASearchNode newNode = new HeuristicSearchNode(problemState);
 		return newNode;
 	}
 
 	@Override
-	public void initLists() 
-	{
-		
+	public void initLists(){
+		openList = new PriorityQueue<>((ASearchNode o1, ASearchNode o2) -> (int)(o1.getF()-o2.getF()));
+		closeList = new ArrayList<>();
 	}
 
 	@Override
-	public ASearchNode getOpen
-	(
-		ASearchNode node
-	) 
-	{
+	public ASearchNode getOpen(ASearchNode node){
+		Iterator<ASearchNode> it = openList.iterator();
+		ASearchNode ans;
+		while (it.hasNext()){
+			ans = it.next();
+			if(ans.equals(node))
+				return ans;
+		}
 		return null;
 	}
 
 	@Override
-	public boolean isOpen
-	(
-		ASearchNode node
-	) 
-	{
-		return false;
+	public boolean isOpen(ASearchNode node){
+		return openList.contains(node);
 	}
 	
 	@Override
-	public boolean isClosed
-	(
-		ASearchNode node
-	) 
-	{
-		return false;
+	public boolean isClosed(ASearchNode node){
+		return closeList.contains(node);
 	}
 
 	@Override
-	public void addToOpen
-	(
-		ASearchNode node
-	) 
-	{
-
+	public void addToOpen(ASearchNode node){
+		if(openList.contains(node))
+			openList.remove(node);
+		openList.add(node);
 	}
 
 	@Override
-	public void addToClosed
-	(
-		ASearchNode node
-	) 
-	{
-		
+	public void addToClosed	(ASearchNode node){
+		closeList.add(node);
 	}
 
 	@Override
 	public int openSize() 
 	{
-		return 0;
+		return openList.size();
 	}
 
 	@Override
-	public ASearchNode getBest() 
-	{
-		return null;
+	public ASearchNode getBest() {
+		return openList.poll();
 	}
 
 }
