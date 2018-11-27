@@ -7,22 +7,19 @@ import java.util.List;
 public class Main 
 {
 
-	public static void main(String [ ] args)
-	{
-		
+	public static void main(String [ ] args){
 		System.out.println("Start!");
-		task1();
+//		task1();
 		//task2();
 		//task3();
-		//task4();
+		task4();
 		//task5();
 		//task6();
 		System.out.println("");
 		System.out.println("Done!");
 	}
 	
-	public static void task1()
-	{
+	public static void task1(){
 		System.out.println("---------- Task 1 ----------");
 		List<String> ids = IDs.getIDs();
 		System.out.print("Students ids: ");
@@ -30,8 +27,7 @@ public class Main
 			System.out.print(id + " | ");
 	}
 	
-	public static void task2()
-	{
+	public static void task2(){
 		System.out.println("---------- Task 2 ----------");
 		List<ASearch> 		solvers 	= new ArrayList<ASearch>();
 		BreadthFirstSearch 	bfs 		= new BreadthFirstSearch();
@@ -39,8 +35,7 @@ public class Main
 		solveInstances(solvers, "tile3x3");
 	}
 	
-	public static void task3()
-	{
+	public static void task3(){
 		System.out.println("---------- Task 3 -----------");
 		List<ASearch> 		solvers 	= new ArrayList<ASearch>();
 		UniformCostSearch 	ucs 		= new UniformCostSearch();
@@ -48,8 +43,7 @@ public class Main
 		solveInstances(solvers, "tile3x3");
 	}
 	
-	public static void task4()
-	{
+	public static void task4(){
 		System.out.println("---------- Task 4 -----------");
 		List<ASearch> 		solvers 	= new ArrayList<ASearch>();
 		PureHeuristicSearch phs 		= new PureHeuristicSearch();
@@ -57,8 +51,7 @@ public class Main
 		solveInstances(solvers, "tile3x3");
 	}
 	
-	public static void task5()
-	{
+	public static void task5(){
 		System.out.println("---------- Task 5 -----------");
 		List<ASearch> 		solvers 	= new ArrayList<ASearch>();
 		AStarSearch 		astar 		= new AStarSearch();
@@ -66,8 +59,7 @@ public class Main
 		solveInstances(solvers, "tile3x3");
 	}
 	
-	public static void task6()
-	{
+	public static void task6(){
 		System.out.println("---------- Task 6 -----------");
 		List<ASearch> 		solvers 	= new ArrayList<ASearch>();
 		AStarSearch 		astar 		= new AStarSearch();
@@ -75,27 +67,20 @@ public class Main
 		solveInstances(solvers, "tile4x4");
 	}
 	
-	public static void solveInstances
-	(
-		List<ASearch> 	solvers,
-		String 			instancesType
-	) 
-	{
+	public static void solveInstances(List<ASearch> solvers, String instancesType){
 		try 
 		{
-			long			totalTime = 0;
-			List<String> 	instances = getInstances(instancesType);
-			for (String instance : instances)
-			{
+			long totalTime = 0;
+			List<String> instances = getInstances(instancesType);
+			for (String instance : instances){
 				System.out.println("---- " + instance.substring(instance.indexOf("tile_")) + " ----");
-				TilePuzzle 			problem 	= new TilePuzzle(instance);
-				for (ASearch solver : solvers)
-				{
+				TilePuzzle problem 	= new TilePuzzle(instance);
+				for (ASearch solver : solvers){
 					System.out.println("Solver: " + solver.getSolverName());
-					long 				startTime 	= System.nanoTime();
-					List<IProblemMove> 	solution 	= solver.solve(problem);
-					long 				finishTime 	= System.nanoTime();
-					double 				cost 		= checkSolution(problem, solution);
+					long startTime = System.nanoTime();
+					List<IProblemMove> solution = solver.solve(problem);
+					long finishTime = System.nanoTime();
+					double cost = checkSolution(problem, solution);
 					if (cost >= 0)		// valid solution
 					{
 						// printSolution(problem, solution);
@@ -119,32 +104,21 @@ public class Main
 		}
 	}
 	
-	public static List<String> getInstances
-	(
-		String type
-	) throws IOException
-	{
+	public static List<String> getInstances(String type) throws IOException{
 		List<String> instances = new ArrayList<String>();
 		String currentDir = new java.io.File( "." ).getCanonicalPath() + "\\instances\\" + type + "\\";
 		File folder = new File(currentDir);
 		File[] listOfFiles = folder.listFiles();
 
-		for (int i = 0; i < listOfFiles.length; i++) 
-		{
-			if (listOfFiles[i].isFile()) 
-			{
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
 				instances.add(currentDir + listOfFiles[i].getName());
 			} 
 		}
 		return instances;
 	}
 	
-	public static double checkSolution
-	(
-		IProblem 			instance,
-		List<IProblemMove> 	solution
-	)
-	{
+	public static double checkSolution(IProblem instance, List<IProblemMove> solution){
 		if (solution == null)
 			return -1;
 		double cost = 0;
@@ -160,15 +134,9 @@ public class Main
 		return -1;
 	}
 	
-	public static void printSolution
-	(
-		IProblem 			instance,
-		List<IProblemMove> 	solution
-	)
-	{
+	public static void printSolution(IProblem instance, List<IProblemMove> solution){
 		IProblemState currentState = instance.getProblemState();
-		for (IProblemMove move : solution)
-		{
+		for (IProblemMove move : solution){
 			currentState = currentState.performMove((TilePuzzleMove)move);
 			System.out.println(move);
 			System.out.println(currentState);
