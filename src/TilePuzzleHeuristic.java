@@ -1,22 +1,22 @@
 
 public class TilePuzzleHeuristic implements IHeuristic {
 
+
     @Override
     public double getHeuristic(IProblemState problemState) {
-        double ans = 0;
+        int ans = 0;
         if (problemState instanceof TilePuzzleState) {
-            int h, optCol, optRow;
+            int tileWidth, tileHeight, val;
             int[][] tile = ((TilePuzzleState) problemState)._tilePuzzle;
-            for (int i = 0; i < tile.length; i++) {
-                for (int j = 0; j < tile[i].length; j++) {
-                    optCol = (tile[i][j] + 2) % tile[i].length;
-                    optRow = (tile[i][j] - 1) % tile.length;
-                    h = (Math.abs(j - optCol) + Math.abs(i - optRow)) * tile[i][j];
-                    ans += h;
+            tileWidth = tile[0].length;
+            tileHeight = tile.length;
+            for (int i = 0; i < tileHeight; i++) {
+                for (int j = 0; j < tileWidth; j++) {
+                    val = tile[i][j];
+                    ans+= val*(Math.abs(j-((val-1)%tileWidth)) + Math.abs(i-((val-1)/tileHeight)));
                 }
             }
         }
         return ans;
     }
-
 }
